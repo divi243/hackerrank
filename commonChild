@@ -1,0 +1,63 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+    
+    // Complete the commonChild function below.
+    static int commonChild(String s1, String s2) {
+       int count =0;
+         ArrayList <Character> l = new ArrayList<Character>();
+     for(int i = 0;i<s1.length();i++){
+         
+         for(int j = 0;j<s2.length();j++){
+         if(s1.toCharArray()[i]==s2.toCharArray()[j] ){
+             l.add(s1.toCharArray()[i]);
+           //  count++;
+             
+         }
+         }
+     }
+     HashMap<Character,Integer> hm = new HashMap <Character,Integer>();
+
+     for(int i=0;i<l.size();i++){
+         if(hm.containsKey(l.get(i))){
+             hm.replace(l.get(i),hm.get(l.get(i)));
+         }
+         else{
+             hm.put(l.get(i),1);
+         }
+     }
+
+
+
+     for(int i=0;i<l.size();i++){
+         System.out.println(l.get(i));
+     }
+     return hm.size();
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s1 = scanner.nextLine();
+
+        String s2 = scanner.nextLine();
+
+        int result = commonChild(s1, s2);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
