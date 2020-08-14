@@ -1,0 +1,100 @@
+ import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    // Complete the freqQuery function below.
+    static List<Integer> freqQuery(List<List<Integer>> queries) {
+      //   ArrayList <Integer> array = new ArrayList<Integer>();
+        // ListIterator<List<Integer>> itr=queries.listIterator();
+         HashMap <Integer,Integer> hm = new HashMap <Integer,Integer>();
+          List <Integer> L = new ArrayList <Integer>();
+          Integer count =0;
+          for(int i=0;i<queries.size();i++){
+            //  System.out.println(queries.get(i)[0]);
+              int op = queries.get(i).get(0);
+              int num = queries.get(i).get(1);
+              System.out.println(op);
+              System.out.println(num);
+              if(op == 1){
+                 if(hm.containsKey(num)){
+                     hm.replace(num,hm.get(num)+1);
+                 }else{
+                     hm.put(num,1);
+                 }
+              }
+              if(op == 2){
+                  
+                  count = hm.get(num);
+                  if(count != null){
+                      if (count <1){
+                    hm.remove(num);
+                      }
+                      else{
+                      hm.replace(num,count-1);        
+                   }           
+                  }       
+          }
+          if(op == 3){
+              if(hm.containsValue(num)){
+                  L.add(1);
+              }else{
+                  L.add(0);
+              }
+          }
+          
+          //  System.out.print(queries.get(j).get(i)+" ");
+         }
+
+        //  for (Map.Entry mapElement : hm.entrySet()) { 
+        //     int key = (int)mapElement.getKey(); 
+        //     int value = ((int)mapElement.getValue()); 
+         
+        //     System.out.println(key + " : " + value); 
+        // }       
+  return L;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<List<Integer>> queries = new ArrayList<>();
+
+        IntStream.range(0, q).forEach(i -> {
+            try {
+                queries.add(
+                    Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Integer::parseInt)
+                        .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        List<Integer> ans = freqQuery(queries);
+        System.out.println(ans);
+
+        bufferedWriter.write(
+            ans.stream()
+                .map(Object::toString)
+                .collect(joining("\n"))
+            + "\n"
+        );
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
